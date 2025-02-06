@@ -11,6 +11,9 @@ let amigo = "";
 // Elemento HTML de la lista
 let lista = "";
 
+// Elemento HTML del resultadp
+let resultado = "";
+
 // Funcion para agregar un amigo a la lista
 /* Funcionamiento:
     - Busca el elemento por Id y toma su valor
@@ -21,17 +24,18 @@ let lista = "";
 function agregarAmigo() {
     amigo = document.getElementById("amigo").value;
     if (typeof amigo === "string" && amigo.length === 0) {
-        alert("Por favor, inserte un nombre.");
-    } else if (amigo === null) {
-        alert("Por favor, inserte un nombre.");
+        alertaVacio();
+    } else if (amigo === null || amigo.trim() == "") {
+        alertaVacio();
+        limpiarCampoAmigo();
     } else {
         listadoAmigos.push(amigo);
-        limpiarCajaPorId();
+        limpiarCampoAmigo();
         actualizarLista(listadoAmigos);
     }
 }
 
-function limpiarCajaPorId() {
+function limpiarCampoAmigo() {
     document.getElementById("amigo").value = "";
 }
 
@@ -50,4 +54,26 @@ function actualizarLista(listadoAmigos) {
         li.innerHTML = element;
         lista.appendChild(li);
     });
+}
+
+//Funcion que realiza el sorteo del amigo
+/* Funcionamiento:
+    - Mediante una condicional, revisa si se han ingresado amigos a la lista: si esta vacia, envia una alerta, sino, continua
+    - Se genera un indice pseudoaleatorio
+    - Se obtiene un elemento de la lista con el indice generado
+    - Se actualiza la vista y se muestra el elemento 
+*/
+function sortearAmigo() {
+    if (listadoAmigos.length==0) {
+        alertaVacio();
+    } else {
+        let indiceGenerado =  Math.floor(Math.random()*listadoAmigos.length);
+        let nombreSorteado = listadoAmigos[indiceGenerado];
+        resultado = document.getElementById("resultado");
+        resultado.innerHTML = nombreSorteado;
+    }
+}
+
+function alertaVacio() {
+    alert("Por favor, inserte un nombre.");
 }
